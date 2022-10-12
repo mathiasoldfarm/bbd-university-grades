@@ -1,24 +1,31 @@
-const express = require("express");
+import express from 'express';
+import {
+    fetchStudentInfo,
+    fetchRequests,
+    acceptRequest,
+    declineRequest,
+    deleteRequest
+} from '../controllers/student';
 const router = express.Router();
 
 router.get('/fetch', (req, res) => {
-    res.send('Fetch');
+    fetchStudentInfo(req, res)
 });
 
 router.get('/requests', (req, res) => {
-    res.send('Fetch all requests');
+    fetchRequests(req, res)
 });
 
 router.post('/accept', (req, res) => {
-    res.send('Accept request');
+    acceptRequest(req, res)
 });
 
-router.post('/decline', (req, res) => {
-    res.send('Decline request');
+router.post('/declinet', (req, res) => {
+    declineRequest(req, res)
 });
 
 router.post('/delete', (req, res) => {
-    res.send('Delete access given');
+    deleteRequest(req, res)
 });
 
 export default router;

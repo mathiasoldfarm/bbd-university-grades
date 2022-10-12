@@ -1,8 +1,10 @@
-const express = require("express");
+import express from 'express';
+import { addGrade } from '../controllers/university';
+
 const router = express.Router();
 
 router.post('/add-grade', (req, res) => {
-    res.send('Add grade');
+    addGrade(req, res)
 });
 
 export default router;
