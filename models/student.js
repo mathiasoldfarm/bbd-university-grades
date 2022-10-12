@@ -5,3 +5,5 @@ class Student {
         this.university = uniserviity
     }
 }
+
+export default Student;

@@ -17,4 +17,4 @@ router.post('/request-access', (req, res) => {
     res.send('Request access to transcript');
 });
 
-module.exports = router;
+export default router;

@@ -1,7 +1,7 @@
-const express = require('express');
-const employer = require('./routes/employer');
-const student = require('./routes/student');
-const university = require('./routes/university');
+import express from 'express';
+import employerRoute from './src/routes/employer';
+import studentRoute from './src/routes/student';
+import universityRoute from './src/routes/university';
 
 const app = express()
 const port = 3000

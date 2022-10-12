@@ -3,3 +3,5 @@ class Employer {
         this.name = name
     }
 }
+
+export default Employer;

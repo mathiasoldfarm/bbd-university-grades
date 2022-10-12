@@ -3,3 +3,5 @@ class University {
         this.name = name
     }
 }
+
+export default University;

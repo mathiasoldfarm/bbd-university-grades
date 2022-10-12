@@ -25,4 +25,4 @@ router.post('/delete', (req, res) => {
     res.send('Delete access given');
 });
 
-module.exports = router;
+export default router;

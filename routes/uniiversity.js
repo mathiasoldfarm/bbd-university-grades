@@ -9,4 +9,4 @@ router.post('/add-grade', (req, res) => {
     res.send('Add grade');
 });
 
-module.exports = router;
+export default router;
