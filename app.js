@@ -1,7 +1,7 @@
 import express from 'express';
-import employerRoute from './src/routes/employer';
-import studentRoute from './src/routes/student';
-import universityRoute from './src/routes/university';
+import employerRoute from './src/routes/employer.js';
+import studentRoute from './src/routes/student.js';
+import universityRoute from './src/routes/university.js';
 
 const app = express()
 const port = 3000

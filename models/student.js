@@ -1,8 +1,8 @@
 class Student {
-    constructor(name, cpr, uniserviity) {
+    constructor(name, cpr, university) {
         this.name = name
         this.cpr = cpr
-        this.university = uniserviity
+        this.university = university
     }
 }
 

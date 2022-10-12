@@ -1,3 +1,32 @@
-{
-    "students" : []
-}
+[
+  {
+    "name": "Student A",
+    "cpr": 1,
+    "university": "University A"
+  },
+  {
+    "name": "Student B",
+    "cpr": 2,
+    "university": "University A"
+  },
+  {
+    "name": "Student C",
+    "cpr": 3,
+    "university": "University A"
+  },
+  {
+    "name": "Student D",
+    "cpr": 4,
+    "university": "University B"
+  },
+  {
+    "name": "Student E",
+    "cpr": 5,
+    "university": "University B"
+  },
+  {
+    "name": "Student F",
+    "cpr": 6,
+    "university": "University B"
+  }
+]

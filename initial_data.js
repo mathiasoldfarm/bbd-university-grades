@@ -1,12 +1,13 @@
 import fs from 'fs';
-import employerModel from './models/employer';
-import studentModel from './models/student';
-import universityModel from './models/university';
+import employerModel from './models/employer.js';
+import studentModel from './models/student.js';
+import universityModel from './models/university.js';
 
 const initialData = () => {
     const employerFile = './database/employer.json';
     const studentFile = './database/student.json';
     const universityFile = './database/university.json';
+    const permisionsFile = './database/permisions.json';
 
     const employer = {
         employers: []
@@ -30,7 +31,24 @@ const initialData = () => {
         university.universiities.push(new universityModel(name))
     })
 
-    fs.writeFile(employerFile, JSON.stringify(employer));
-    fs.writeFile(studentFile, JSON.stringify(student));
-    fs.writeFile(universityFile, JSON.stringify(university));
+    const students = [
+        {name: "Student A", cpr: 1, university: "University A"},
+        {name: "Student B", cpr: 2, university: "University A"},
+        {name: "Student C", cpr: 3, university: "University A"},
+        {name: "Student D", cpr: 4, university: "University B"},
+        {name: "Student E", cpr: 5, university: "University B"},
+        {name: "Student F", cpr: 6, university: "University B"}
+    ]
+    students.forEach((name, cpr, university) => {
+        student.students.push(new studentModel(name, cpr, university))
+    })
+
+    const permisions = []
+
+    fs.writeFileSync(employerFile, JSON.stringify(employers, null, 2));
+    fs.writeFileSync(studentFile, JSON.stringify(students, null, 2));
+    fs.writeFileSync(universityFile, JSON.stringify(universities, null, 2));
+    fs.writeFileSync(permisionsFile, JSON.stringify(permisions, null, 2));
 }
+
+initialData();
