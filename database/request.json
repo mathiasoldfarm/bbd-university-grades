@@ -1,0 +1,12 @@
+{
+  "requests": [
+    {
+      "studentCpr": 3,
+      "companyName": "Company A"
+    },
+    {
+      "studentCpr": 4,
+      "companyName": "Company B"
+    }
+  ]
+}

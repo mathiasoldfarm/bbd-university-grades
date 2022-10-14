@@ -1,0 +1,12 @@
+{
+  "permissions": [
+    {
+      "studentCpr": 1,
+      "companyName": "Company A"
+    },
+    {
+      "studentCpr": 2,
+      "companyName": "Company B"
+    }
+  ]
+}

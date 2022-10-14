@@ -1,5 +1,16 @@
-[
-  "Company A",
-  "Company B",
-  "Company C"
-]
+{
+  "employers": [
+    {
+      "name": "Company A",
+      "country": "Country A"
+    },
+    {
+      "name": "Company B",
+      "country": "Country B"
+    },
+    {
+      "name": "Company C",
+      "country": "Country B"
+    }
+  ]
+}

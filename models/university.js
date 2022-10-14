@@ -1,6 +1,7 @@
 class University {
-    constructor(name) {
+    constructor(name, country) {
         this.name = name
+        this.country = country
     }
 }
 

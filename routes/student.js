@@ -4,7 +4,7 @@ import {
     fetchRequests,
     acceptRequest,
     declineRequest,
-    deleteRequest
+    deletePermission
 } from '../controllers/student';
 const router = express.Router();
 
@@ -24,8 +24,8 @@ router.post('/declinet', (req, res) => {
     declineRequest(req, res)
 });
 
-router.post('/delete', (req, res) => {
-    deleteRequest(req, res)
+router.post('/delete-permission', (req, res) => {
+    deletePermission(req, res)
 });
 
 export default router;

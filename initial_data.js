@@ -2,12 +2,17 @@ import fs from 'fs';
 import employerModel from './models/employer.js';
 import studentModel from './models/student.js';
 import universityModel from './models/university.js';
+import permissionModel from './models/permission.js';
+import gradesModel from './models/grade.js';
+import requestModel from './models/request.js';
 
 const initialData = () => {
     const employerFile = './database/employer.json';
     const studentFile = './database/student.json';
     const universityFile = './database/university.json';
-    const permisionsFile = './database/permisions.json';
+    const permisionsFile = './database/permission.json';
+    const blockchainFile = './database/blockchain.json';
+    const requestFile = './database/request.json';
 
     const employer = {
         employers: []
@@ -18,18 +23,39 @@ const initialData = () => {
     }
 
     const university = {
-        universiities: []
+        universities: []
     }
 
-    const employers = ["Company A", "Company B", "Company C"]
-    employers.forEach(name => {
-        employer.employers.push(new employerModel(name))
-    })
+    const permission = {
+        permissions: []
+    }
 
-    const universities = ["University A", "University B"]
-    universities.forEach(name => {
-        university.universiities.push(new universityModel(name))
-    })
+    const blockchain = {
+        blocks: []
+    }
+
+    const request = {
+        requests: []
+    }
+
+    const employers = [
+        {name: "Company A", country: "Country A"},
+        {name: "Company B", country: "Country B"},
+        {name: "Company C", country: "Country B"}
+    ]
+    employers.forEach(data => {
+        const { name, country } = data;
+        employer.employers.push(new employerModel(name, country))
+    });
+
+    const universities = [
+        {name: "University A", country: "Country A"},
+        {name: "University B", country: "Country B"}
+    ]
+    universities.forEach(data => {
+        const { name, country } = data;
+        university.universities.push(new universityModel(name, country))
+    });
 
     const students = [
         {name: "Student A", cpr: 1, university: "University A"},
@@ -39,16 +65,48 @@ const initialData = () => {
         {name: "Student E", cpr: 5, university: "University B"},
         {name: "Student F", cpr: 6, university: "University B"}
     ]
-    students.forEach((name, cpr, university) => {
+    students.forEach(data => {
+        const { name, cpr, university } = data;
         student.students.push(new studentModel(name, cpr, university))
-    })
+    });
 
-    const permisions = []
+    const permissions = [
+        {studentCpr: 1, companyName: "Company A"},
+        {studentCpr: 2, companyName: "Company B"}
+    ]
+    permissions.forEach(data => {
+        const { studentCpr, companyName } = data;
+        permission.permissions.push(new permissionModel(studentCpr, companyName))
+    });
 
-    fs.writeFileSync(employerFile, JSON.stringify(employers, null, 2));
-    fs.writeFileSync(studentFile, JSON.stringify(students, null, 2));
-    fs.writeFileSync(universityFile, JSON.stringify(universities, null, 2));
-    fs.writeFileSync(permisionsFile, JSON.stringify(permisions, null, 2));
+    const blocks = [
+        {studentCpr: 1, universityName: "University A", course: "Programming", grade: 7},
+        {studentCpr: 2, universityName: "University A", course: "Programming", grade: 4},
+        {studentCpr: 3, universityName: "University A", course: "Programming", grade: 12},
+        {studentCpr: 1, universityName: "University A", course: "Algebra", grade: 2},
+        {studentCpr: 2, universityName: "University A", course: "Algebra", grade: 10},
+        {studentCpr: 3, universityName: "University A", course: "Algebra", grade: 7}
+    ]
+    blocks.forEach(data => {
+        const { studentCpr, universityName, course, grade } = data;
+        blockchain.blocks.push(new gradesModel(studentCpr, universityName, course, grade))
+    });
+
+    const requests = [
+        {studentCpr: 3, companyName: "Company A"},
+        {studentCpr: 4, companyName: "Company B"}
+    ]
+    requests.forEach(data => {
+        const { studentCpr, companyName } = data;
+        request.requests.push(new requestModel(studentCpr, companyName))
+    });
+
+    fs.writeFileSync(employerFile, JSON.stringify(employer, null, 2));
+    fs.writeFileSync(studentFile, JSON.stringify(student, null, 2));
+    fs.writeFileSync(universityFile, JSON.stringify(university, null, 2));
+    fs.writeFileSync(permisionsFile, JSON.stringify(permission, null, 2));
+    fs.writeFileSync(blockchainFile, JSON.stringify(blockchain, null, 2));
+    fs.writeFileSync(requestFile, JSON.stringify(request, null, 2));
 }
 
 initialData();
