@@ -1,0 +1,12 @@
+{
+  "universities": [
+    {
+      "name": "University A",
+      "country": "Country A"
+    },
+    {
+      "name": "University B",
+      "country": "Country B"
+    }
+  ]
+}
