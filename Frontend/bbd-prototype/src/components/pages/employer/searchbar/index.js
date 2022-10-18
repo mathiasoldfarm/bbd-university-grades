@@ -72,14 +72,18 @@ class SearchBar extends Component {
         if ( this.state.error ) {
             return (
                 <Row className='mt-3'>
-                    <Alert color="danger">
-                        {this.state.error}
-                    </Alert>
+                    <Row className='w-100'>
+                        <Alert color="danger">
+                            {this.state.error}
+                        </Alert>
+                    </Row>
                     {this.state.error === "You do not have access to transcripts by the given cpr" ? (
-                        <div>
-                            <p>Do you want to request access to the student with CPR = {this.state.value}?</p>
-                            <Button onClick={this.requestAccess}>Yes!</Button>
-                        </div>
+                        <Row className='w-100'>
+                            <div>
+                                <p>Do you want to request access to the student with CPR = {this.state.value}?</p>
+                                <Button onClick={this.requestAccess}>Yes!</Button>
+                            </div>
+                        </Row>
                     ) : null}
                 </Row>
             )
@@ -102,7 +106,7 @@ class SearchBar extends Component {
                             onChange={this.changeHandler}
                         />
                     </FormGroup>
-                    <Button>Search</Button>
+                    <Button color="primary">Search</Button>
                 </Form>
                 {this.renderSpinner()}
                 {this.renderError()}
