@@ -1,16 +1,21 @@
-import gradeModel from '../models/grade';
+import gradeModel from '../models/grade.js';
 import fs from 'fs';
+import path from 'path';
+import {fileURLToPath} from 'url';
 
-const allUniversities = (res, req) => {
-    const universityDB = JSON.parse(fs.readFileSync('../database/university.json'));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const allUniversities = (req, res) => {
+    const universityDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/university.json')));
     res.status(200).send(universityDB.universities);   
     return;
 }
 
 const addGrade = (req, res) => {
-    const blockchainDB = JSON.parse(fs.readFileSync('../database/blockchain.json'));
-    const universityDB = JSON.parse(fs.readFileSync('../database/university.json'));
-    const studentDB = JSON.parse(fs.readFileSync('../database/student.json'));
+    const blockchainDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/blockchain.json')));
+    const universityDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/university.json')));
+    const studentDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/student.json')));
 
     const { studentCpr, universityName, course, grade } = req.body;
     const university = universityDB.universities.filter(u => u.name === universityName);

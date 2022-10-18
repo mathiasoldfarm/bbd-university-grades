@@ -4,7 +4,7 @@ import {
     fetchTranscriptByCpr,
     requestAccessByCpr,
     allEmployers
-} from '../controllers/employer';
+} from '../controllers/employer.js';
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.get('/fetch/:name', (req, res) => {
     fetchEmployerInfo(req, res)
 });
 
-router.get('/transcript/:cpr', (req, res) => {
+router.get('/transcript/:companyname/:cpr', (req, res) => {
     fetchTranscriptByCpr(req, res)
 });
 

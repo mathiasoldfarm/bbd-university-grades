@@ -6,7 +6,7 @@ import {
     declineRequest,
     deletePermission,
     allStudents
-} from '../controllers/student';
+} from '../controllers/student.js';
 const router = express.Router();
 
 router.get('/fetch', (req, res) => {
@@ -25,7 +25,7 @@ router.post('/declinet', (req, res) => {
     declineRequest(req, res)
 });
 
-router.post('/delete-permission', (req, res) => {
+router.delete('/delete-permission', (req, res) => {
     deletePermission(req, res)
 });
 

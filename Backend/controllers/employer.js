@@ -1,14 +1,19 @@
 import fs from 'fs';
-import requestModel from '../models/request';
+import path from 'path';
+import {fileURLToPath} from 'url';
+import requestModel from '../models/request.js';
 
-const allEmployers = (res, req) => {
-    const employerDB = JSON.parse(fs.readFileSync('../database/employer.json'));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const allEmployers = (req, res) => {
+    const employerDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/employer.json')));
     res.status(200).send(employerDB.employers);   
     return;
 }
 
-const fetchEmployerInfo = (res, req) => {
-    const employerDB = JSON.parse(fs.readFileSync('../database/employer.json'));
+const fetchEmployerInfo = (req, res) => {
+    const employerDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/employer.json')));
 
     const { name } = req.params;
     const employerData = employerDB.employers.filter(data => data.name === name);
@@ -21,14 +26,31 @@ const fetchEmployerInfo = (res, req) => {
 }
 
 const fetchTranscriptByCpr = (req, res) => {
-    const permissionDB = JSON.parse(fs.readFileSync('../database/permission.json'));
-    const blockchainDB = JSON.parse(fs.readFileSync('../database/blockchain.json'));
+    const permissionDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/permission.json')));
+    const studentDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/student.json')));
+    const blockchainDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/blockchain.json')));
+    const requestDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/request.json')));
 
-    const { cpr, companyName } = req.params;
+    const { cpr, companyname } = req.params;
+    const student = studentDB.students.filter(s =>
+        s.cpr === parseInt(cpr)
+    );
+    if ( student.length === 0 ) {
+        res.status(400).send("The given CPR doesn't exist in our system"); 
+        return; 
+    }
+
     const permission = permissionDB.permissions.filter(
-        p => p.companyName === companyName && p.studentCpr === parseInt(cpr)
+        p => p.companyName === companyname && p.studentCpr === parseInt(cpr)
     );
     if ( permission.length === 0 ) {
+        const requests = requestDB.requests.filter(
+            r => r.companyName === companyname && r.studentCpr === parseInt(cpr)
+        );
+        if ( requests.length !== 0 ) {
+            res.status(401).send("You have a pending request for access to transcripts for the given student"); 
+            return; 
+        } 
         res.status(401).send("You do not have access to transcripts by the given cpr"); 
         return; 
     }
@@ -40,8 +62,8 @@ const fetchTranscriptByCpr = (req, res) => {
 }
 
 const requestAccessByCpr = (req, res) => {
-    const requestDB = JSON.parse(fs.readFileSync('../database/request.json'));
-    const permissionDB = JSON.parse(fs.readFileSync('../database/permission.json'));
+    const requestDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/request.json')));
+    const permissionDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/permission.json')));
 
     const { cpr, companyName } = req.body;
     const permission = permissionDB.permissions.filter(

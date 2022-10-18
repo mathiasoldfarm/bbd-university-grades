@@ -1,18 +1,23 @@
 import express from 'express';
-import employerRoute from './src/routes/employer.js';
-import studentRoute from './src/routes/student.js';
-import universityRoute from './src/routes/university.js';
+import employerRoute from './routes/employer.js';
+import studentRoute from './routes/student.js';
+import universityRoute from './routes/university.js';
+import cors from 'cors';
 
 const app = express()
-const port = 3000
+const port = 3001
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.use("/employer", employer);
-app.use("/student", student);
-app.use("/university", university);
+app.use(cors({
+    origin: 'http://localhost:3000'
+}));
+
+app.use("/employer", employerRoute);
+app.use("/student", studentRoute);
+app.use("/university", universityRoute);
 
 app.use((req, res, next) => {
   res.status(404).send("Sorry, that route doesn't exist. Have a nice day :)");

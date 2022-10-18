@@ -1,14 +1,19 @@
-import permissionModel from '../models/permission';
+import permissionModel from '../models/permission.js';
 import fs from 'fs';
+import path from 'path';
+import {fileURLToPath} from 'url';
 
-const allStudents = (res, req) => {
-    const studentDB = JSON.parse(fs.readFileSync('../database/student.json'));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const allStudents = (req, res) => {
+    const studentDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/student.json')));
     res.status(200).send(studentDB.students);   
     return;
 }
 
 const fetchStudentInfo = (req, res) => {
-    const studentDB = JSON.parse(fs.readFileSync('../database/student.json'));
+    const studentDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/student.json')));
 
     const { cpr } = req.params;
     const studentData = studentDB.students.filter(data => data.cpr === parseInt(cpr));
@@ -21,7 +26,7 @@ const fetchStudentInfo = (req, res) => {
 }
 
 const fetchRequests = (req, res) => {
-    const requestDB = JSON.parse(fs.readFileSync('../database/request.json'));
+    const requestDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/request.json')));
 
     const { cpr } = req.params;
     const reqeustData = requestDB.requests.filter(data => data.studentCpr === parseInt(cpr));
@@ -30,8 +35,8 @@ const fetchRequests = (req, res) => {
 }
 
 const acceptRequest = (req, res) => {
-    const requestDB = JSON.parse(fs.readFileSync('../database/request.json'));
-    const permissionDB = JSON.parse(fs.readFileSync('../database/permission.json'));
+    const requestDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/request.json')));
+    const permissionDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/permission.json')));
 
     const { cpr, companyName } = req.params;
     const reqeustData = requestDB.requests.filter(
@@ -54,7 +59,7 @@ const acceptRequest = (req, res) => {
 }
 
 const declineRequest = (req, res) => {
-    const requestDB = JSON.parse(fs.readFileSync('../database/request.json'));
+    const requestDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/request.json')));
 
     const { cpr, companyName } = req.params;
     const reqeustData = requestDB.requests.filter(
@@ -74,7 +79,7 @@ const declineRequest = (req, res) => {
 }
 
 const deletePermission = (req, res) => {
-    const permissionDB = JSON.parse(fs.readFileSync('../database/permission.json'));
+    const permissionDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/permission.json')));
 
     const { cpr, companyName } = req.params;
     const permissionData = permissionDB.permissions.filter(
