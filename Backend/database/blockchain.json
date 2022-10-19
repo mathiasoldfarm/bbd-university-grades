@@ -41,6 +41,20 @@
       "course": "Algebra",
       "grade": 7,
       "date": "2022-10-19T15:12:05.020Z"
+    },
+    {
+      "studentCpr": 1,
+      "universityName": "University B",
+      "course": "Design",
+      "grade": "10",
+      "date": "2022-10-19T15:36:06.743Z"
+    },
+    {
+      "studentCpr": 1,
+      "universityName": "University B",
+      "course": "Design B",
+      "grade": "7",
+      "date": "2022-10-19T15:36:12.566Z"
     }
   ]
 }
