@@ -11,6 +11,7 @@ import {
  } from 'reactstrap';
 import { get } from '../../../../../utils/request';
 import AccessRequest from './AccessRequest';
+import Transcript from './Transcript';
 
 class SearchBar extends Component {
     constructor(props) {
@@ -27,6 +28,7 @@ class SearchBar extends Component {
         this.submit = this.submit.bind(this);
         this.renderSpinner = this.renderSpinner.bind(this);
         this.renderError = this.renderError.bind(this);
+        this.renderTranscript = this.renderTranscript.bind(this);
     }
 
     changeHandler(e) {
@@ -85,26 +87,38 @@ class SearchBar extends Component {
         }
     }
 
+    renderTranscript() {
+        const { grades } = this.state;
+        if ( grades?.length > 0 ) {
+            return <Transcript grades={grades} />;
+        }
+    }
+
     render() {
         const { value } = this.state;
         return (
             <div>
-                <Form onSubmit={this.submit}>
-                    <FormGroup>
-                        <Label for="studentCpr">CPR on student you want to see transcript on</Label>
-                        <Input
-                            type="text"
-                            name="cpr"
-                            id="studentCpr"
-                            placeholder="CPR"
-                            value={value}
-                            onChange={this.changeHandler}
-                        />
-                    </FormGroup>
-                    <Button color="primary">Search</Button>
-                </Form>
-                {this.renderSpinner()}
-                {this.renderError()}
+                <div>
+                    <Form onSubmit={this.submit}>
+                        <FormGroup>
+                            <Label for="studentCpr">CPR on student you want to see transcript on</Label>
+                            <Input
+                                type="text"
+                                name="cpr"
+                                id="studentCpr"
+                                placeholder="CPR"
+                                value={value}
+                                onChange={this.changeHandler}
+                            />
+                        </FormGroup>
+                        <Button color="primary">Search</Button>
+                    </Form>
+                    {this.renderSpinner()}
+                    {this.renderError()}
+                </div>
+                <div className='mt-3'>
+                    {this.renderTranscript()}
+                </div>
             </div>
         );
     }

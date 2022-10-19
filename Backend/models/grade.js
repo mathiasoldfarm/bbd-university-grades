@@ -4,6 +4,7 @@ class Grade {
         this.universityName = universityName;
         this.course = course;
         this.grade = grade;
+        this.date = new Date();
     }
 }
 

@@ -8,7 +8,20 @@ const __dirname = path.dirname(__filename);
 
 const allUniversities = (req, res) => {
     const universityDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/university.json')));
-    res.status(200).send(universityDB.universities);   
+    res.status(200).send(universityDB.universities.map(u => u.name));   
+    return;
+}
+
+const fetchUniversityInfo = (req, res) => {
+    const universityDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/university.json')));
+
+    const { universityname } = req.params;
+    const universityData = universityDB.universities.filter(u => u.name === universityname);
+    if ( universityData.length == 0 ) {
+        res.status(400).send("Couldn't find university with the given name");
+        return;
+    }
+    res.status(200).send(universityData[0]);   
     return;
 }
 
@@ -23,12 +36,12 @@ const addGrade = (req, res) => {
         res.status(400).send("Couldn't find university with the name");   
         return;
     }
-    const student = studentDB.students.filter(s => s.cpr === studentCpr);
+    const student = studentDB.students.filter(s => s.cpr === parseInt(studentCpr));
     if ( student.length == 0 ) {
         res.status(400).send("Couldn't find student with the name");   
         return;
     }
-    blockchainDB.blocks.push(new gradeModel(studentCpr, universityName, course, grade));
+    blockchainDB.blocks.push(new gradeModel(parseInt(studentCpr), universityName, course, grade));
     fs.writeFileSync(path.resolve(__dirname, '../database/blockchain.json'), JSON.stringify(blockchainDB, null, 2));
     res.status(200).send();
     return;
@@ -36,5 +49,6 @@ const addGrade = (req, res) => {
 
 export {
     addGrade,
-    allUniversities
+    allUniversities,
+    fetchUniversityInfo
 }

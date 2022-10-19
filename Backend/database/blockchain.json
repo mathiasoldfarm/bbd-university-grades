@@ -4,37 +4,43 @@
       "studentCpr": 1,
       "universityName": "University A",
       "course": "Programming",
-      "grade": 7
+      "grade": 7,
+      "date": "2022-10-19T15:12:05.020Z"
     },
     {
       "studentCpr": 2,
       "universityName": "University A",
       "course": "Programming",
-      "grade": 4
+      "grade": 4,
+      "date": "2022-10-19T15:12:05.020Z"
     },
     {
       "studentCpr": 3,
       "universityName": "University A",
       "course": "Programming",
-      "grade": 12
+      "grade": 12,
+      "date": "2022-10-19T15:12:05.020Z"
     },
     {
       "studentCpr": 1,
       "universityName": "University A",
       "course": "Algebra",
-      "grade": 2
+      "grade": 2,
+      "date": "2022-10-19T15:12:05.020Z"
     },
     {
       "studentCpr": 2,
       "universityName": "University A",
       "course": "Algebra",
-      "grade": 10
+      "grade": 10,
+      "date": "2022-10-19T15:12:05.020Z"
     },
     {
       "studentCpr": 3,
       "universityName": "University A",
       "course": "Algebra",
-      "grade": 7
+      "grade": 7,
+      "date": "2022-10-19T15:12:05.020Z"
     }
   ]
 }
