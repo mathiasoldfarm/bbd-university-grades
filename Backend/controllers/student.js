@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 
 const allStudents = (req, res) => {
     const studentDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/student.json')));
-    res.status(200).send(studentDB.students);   
+    res.status(200).send(studentDB.students.map(s => s.cpr));   
     return;
 }
 
@@ -27,10 +27,18 @@ const fetchStudentInfo = (req, res) => {
 
 const fetchRequests = (req, res) => {
     const requestDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/request.json')));
-
     const { cpr } = req.params;
     const reqeustData = requestDB.requests.filter(data => data.studentCpr === parseInt(cpr));
     res.status(200).send(reqeustData);   
+    return;
+}
+
+const fetchPermissions = (req, res) => {
+    const permissionDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/permission.json')));
+
+    const { cpr } = req.params;
+    const permissionData = permissionDB.permissions.filter(data => data.studentCpr === parseInt(cpr));
+    res.status(200).send(permissionData);   
     return;
 }
 
@@ -38,20 +46,20 @@ const acceptRequest = (req, res) => {
     const requestDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/request.json')));
     const permissionDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/permission.json')));
 
-    const { cpr, companyName } = req.params;
+    const { cpr, companyname } = req.body;
     const reqeustData = requestDB.requests.filter(
-        data => data.studentCpr === parseInt(cpr) && data.companyName === companyName
+        data => data.studentCpr === parseInt(cpr) && data.companyName === companyname
     );
     if ( reqeustData.length === 0 ) {
         res.status(400).send("Couldn't find the given request");
         return;
     }
-    requestDB.requests = requestDB.requestDB.filter(
-        data => !(data.studentCpr === parseInt(cpr) && data.companyName === companyName)
+    requestDB.requests = requestDB.requests.filter(
+        data => !(data.studentCpr === parseInt(cpr) && data.companyName === companyname)
     );
     fs.writeFileSync(path.resolve(__dirname, '../database/request.json'), JSON.stringify(requestDB, null, 2));
 
-    permissionDB.permissions.push(new permissionModel(cpr, companyName));
+    permissionDB.permissions.push(new permissionModel(cpr, companyname));
     fs.writeFileSync(path.resolve(__dirname, '../database/permission.json'), JSON.stringify(permissionDB, null, 2));
 
     res.status(200).send();
@@ -61,16 +69,16 @@ const acceptRequest = (req, res) => {
 const declineRequest = (req, res) => {
     const requestDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/request.json')));
 
-    const { cpr, companyName } = req.params;
+    const { cpr, companyname } = req.body;
     const reqeustData = requestDB.requests.filter(
-        data => data.studentCpr === parseInt(cpr) && data.companyName === companyName
+        data => data.studentCpr === parseInt(cpr) && data.companyName === companyname
     );
     if ( reqeustData.length === 0 ) {
         res.status(400).send("Couldn't find the given request");
         return;
     }
     requestDB.requests = requestDB.requests.filter(
-        data => !(data.studentCpr === parseInt(cpr) && data.companyName === companyName)
+        data => !(data.studentCpr === parseInt(cpr) && data.companyName === companyname)
     );
     fs.writeFileSync(path.resolve(__dirname, '../database/request.json'), JSON.stringify(requestDB, null, 2));
 
@@ -81,16 +89,17 @@ const declineRequest = (req, res) => {
 const deletePermission = (req, res) => {
     const permissionDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/permission.json')));
 
-    const { cpr, companyName } = req.params;
+    const { cpr, companyname } = req.params;
     const permissionData = permissionDB.permissions.filter(
-        data => data.studentCpr === parseInt(cpr) && data.companyName === companyName
+        data => data.studentCpr === parseInt(cpr) && data.companyName === companyname
     );
     if ( permissionData.length === 0 ) {
-        res.status(200).send("Permission did not exist");
+        res.status(400).send("Permission did not exist");
         return;
     }
+
     permissionDB.permissions = permissionDB.permissions.filter(
-        data => !(data.studentCpr === parseInt(cpr) && data.companyName === companyName)
+        data => !(data.studentCpr === parseInt(cpr) && data.companyName === companyname)
     );
     fs.writeFileSync(path.resolve(__dirname, '../database/permission.json'), JSON.stringify(permissionDB, null, 2));
 
@@ -104,5 +113,6 @@ export {
     acceptRequest,
     declineRequest,
     deletePermission,
-    allStudents
+    allStudents,
+    fetchPermissions 
 }

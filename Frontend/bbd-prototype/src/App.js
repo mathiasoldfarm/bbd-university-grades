@@ -6,7 +6,8 @@ import {
 } from "react-router-dom";
 import Frontpage from './components/pages/frontpage';
 import Employer from './components/pages/employer';
-import Container from './components/pages/container';
+import Student from './components/pages/student';
+import Container from './components/container';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Frontpage />} />
             <Route path="/employer" element={<Employer />} />
+            <Route path="/student" element={<Student/>} />
           </Routes>
         </Router>
       </Container>

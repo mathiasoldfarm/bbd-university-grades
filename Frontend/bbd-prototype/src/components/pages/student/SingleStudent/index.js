@@ -1,43 +1,46 @@
 import React, { Component } from 'react';
 import {
     Alert,
-    Spinner
+    Spinner,
+    Row,
+    Col
 } from 'reactstrap';
 import { get } from '../../../../utils/request';
-import SearchBar from './Searchbar';
+import Requests from './Requests';
+import Permissions from './Permissions';
 
-class SingleEmployer extends Component {
+class SingleStudent extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             loading: false,
             error: '',
-            employerData: false
+            studentData: false,
         }
 
         this.renderError = this.renderError.bind(this);
         this.renderSpinner = this.renderSpinner.bind(this);
-        this.renderEmployer = this.renderEmployer.bind(this);
-        this.initalize = this.initalize.bind(this);
+        this.renderStudent = this.renderStudent.bind(this);
+        this.initialize = this.initialize.bind(this);
     }
 
     async componentDidMount() {
-        await this.initalize();
+        await this.initialize();
     }
 
     async componentDidUpdate(prevProps) {
-        if ( prevProps.companyname !== this.props.companyname ) {
-            await this.initalize(); 
+        if ( prevProps.cpr !== this.props.cpr ) {
+            await this.initialize();
         }
     }
 
-    async initalize() {
-        const { companyname } = this.props;
-        this.setState({ error: "", loading: true, employerData: false });
+    async initialize() {
+        const { cpr } = this.props;
+        this.setState({ error: "", loading: true, studentData: false });
         try {
-            const employerData = await get(`employer/fetch/${companyname}`);
-            this.setState({ employerData });
+            const studentData = await get(`student/fetch/${cpr}`);
+            this.setState({ studentData });
         } catch (e) {
             if ( e?.response?.data ) {
                 this.setState({ error: e.response.data })
@@ -45,7 +48,7 @@ class SingleEmployer extends Component {
                 this.setState({ error: e.messae })
             }
         }
-        this.setState({ loading: false });
+        this.setState({ loading: false })
     }
 
     renderSpinner() {
@@ -72,17 +75,25 @@ class SingleEmployer extends Component {
         }
     }
 
-    renderEmployer() {
-        const { employerData } = this.state;
-        if ( employerData ) {
-            const { name, country } = employerData;
+    renderStudent() {
+        const { studentData } = this.state;
+        if ( studentData ) {
+            const { name, university, cpr } = studentData;
             return (
                 <div>
                     <h3>{name}</h3>
-                    <p>Country: {country}</p>
-                    <div>
-                        <SearchBar employer={name} />
-                    </div>
+                    <p className='mb-0'>University: {university}</p>
+                    <p>Cpr: {cpr}</p>
+                    <Row>
+                        <Col>
+                            <h5>All requests from employers</h5>
+                            <Requests cpr={cpr} parentInitialize={this.initialize} />
+                        </Col>
+                        <Col>
+                            <h5>All permissions given</h5> 
+                            <Permissions cpr={cpr} parentInitialize={this.initialize} />                       
+                        </Col>
+                    </Row>
                 </div>
             );
         }
@@ -90,8 +101,8 @@ class SingleEmployer extends Component {
 
     render() {
         return (
-            <div>
-                {this.renderEmployer()}
+            <div className='w-100'>
+                {this.renderStudent()}
                 {this.renderSpinner()}
                 {this.renderError()}
             </div>
@@ -99,4 +110,4 @@ class SingleEmployer extends Component {
     }
 }
 
-export default SingleEmployer;
+export default SingleStudent;

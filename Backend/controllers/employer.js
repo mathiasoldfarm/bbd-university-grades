@@ -62,7 +62,6 @@ const fetchTranscriptByCpr = (req, res) => {
 }
 
 const requestAccessByCpr = (req, res) => {
-    console.log(req.body);
     const requestDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/request.json')));
     const permissionDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/permission.json')));
 
