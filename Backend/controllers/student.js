@@ -49,10 +49,10 @@ const acceptRequest = (req, res) => {
     requestDB.requests = requestDB.requestDB.filter(
         data => !(data.studentCpr === parseInt(cpr) && data.companyName === companyName)
     );
-    fs.writeFileSync('../database/request.json', JSON.stringify(requestDB, null, 2));
+    fs.writeFileSync(path.resolve(__dirname, '../database/request.json'), JSON.stringify(requestDB, null, 2));
 
     permissionDB.permissions.push(new permissionModel(cpr, companyName));
-    fs.writeFileSync('../database/permission.json', JSON.stringify(permissionDB, null, 2));
+    fs.writeFileSync(path.resolve(__dirname, '../database/permission.json'), JSON.stringify(permissionDB, null, 2));
 
     res.status(200).send();
     return;
@@ -72,7 +72,7 @@ const declineRequest = (req, res) => {
     requestDB.requests = requestDB.requests.filter(
         data => !(data.studentCpr === parseInt(cpr) && data.companyName === companyName)
     );
-    fs.writeFileSync('../database/request.json', JSON.stringify(requestDB, null, 2));
+    fs.writeFileSync(path.resolve(__dirname, '../database/request.json'), JSON.stringify(requestDB, null, 2));
 
     res.status(200).send();
     return;
@@ -92,7 +92,7 @@ const deletePermission = (req, res) => {
     permissionDB.permissions = permissionDB.permissions.filter(
         data => !(data.studentCpr === parseInt(cpr) && data.companyName === companyName)
     );
-    fs.writeFileSync('../database/permission.json', JSON.stringify(permissionDB, null, 2));
+    fs.writeFileSync(path.resolve(__dirname, '../database/permission.json'), JSON.stringify(permissionDB, null, 2));
 
     res.status(200).send();
     return;

@@ -29,7 +29,7 @@ const addGrade = (req, res) => {
         return;
     }
     blockchainDB.blocks.push(new gradeModel(studentCpr, universityName, course, grade));
-    fs.writeFileSync('../database/blockchain.json', JSON.stringify(blockchainDB, null, 2));
+    fs.writeFileSync(path.resolve(__dirname, '../database/blockchain.json'), JSON.stringify(blockchainDB, null, 2));
     res.status(200).send();
     return;
 }

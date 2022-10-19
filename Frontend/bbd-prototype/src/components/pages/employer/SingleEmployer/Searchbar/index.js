@@ -9,7 +9,8 @@ import {
     Alert,
     Row
  } from 'reactstrap';
-import { get } from '../../../../utils/request';
+import { get } from '../../../../../utils/request';
+import AccessRequest from './AccessRequest';
 
 class SearchBar extends Component {
     constructor(props) {
@@ -35,11 +36,10 @@ class SearchBar extends Component {
 
     async submit(e) {
         const { value } = this.state;
-        this.setState({ error: '', grades: [] })
         e.preventDefault();
-        if ( value.length != 0 ) {
+        if ( value.length !== 0 ) {
+            this.setState({ error: '', grades: [], loading: true });
             const { employer } = this.props;
-            this.setState({ loading: true });
             try {
                 const grades = await get(`employer/transcript/${employer}/${value}`);
                 this.setState({ grades })
@@ -64,25 +64,20 @@ class SearchBar extends Component {
         }
     }
 
-    requestAccess() {
-
-    }
-
     renderError() {
-        if ( this.state.error ) {
+        const { error, value } = this.state;
+        const { employer } = this.props;
+        if ( error ) {
             return (
                 <Row className='mt-3'>
                     <Row className='w-100'>
                         <Alert color="danger">
-                            {this.state.error}
+                            {error}
                         </Alert>
                     </Row>
-                    {this.state.error === "You do not have access to transcripts by the given cpr" ? (
+                    {error === "You do not have access to transcripts by the given cpr" ? (
                         <Row className='w-100'>
-                            <div>
-                                <p>Do you want to request access to the student with CPR = {this.state.value}?</p>
-                                <Button onClick={this.requestAccess}>Yes!</Button>
-                            </div>
+                            <AccessRequest cpr={value} companyname={employer} />
                         </Row>
                     ) : null}
                 </Row>

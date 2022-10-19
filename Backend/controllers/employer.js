@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 
 const allEmployers = (req, res) => {
     const employerDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/employer.json')));
-    res.status(200).send(employerDB.employers);   
+    res.status(200).send(employerDB.employers.map(e => e.name));   
     return;
 }
 
@@ -62,29 +62,30 @@ const fetchTranscriptByCpr = (req, res) => {
 }
 
 const requestAccessByCpr = (req, res) => {
+    console.log(req.body);
     const requestDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/request.json')));
     const permissionDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/permission.json')));
 
-    const { cpr, companyName } = req.body;
+    const { cpr, companyname } = req.body;
     const permission = permissionDB.permissions.filter(
-        p => p.companyName === companyName && p.studentCpr === parseInt(cpr)
+        p => p.companyName === companyname && p.studentCpr === parseInt(cpr)
     );
     if ( permission.length !== 0 ) {
         res.status(200).send("You already have access");  
         return;
     }
     const requests = requestDB.requests.filter(
-        r => r.companyName === companyName && r.studentCpr === parseInt(cpr)
+        r => r.companyName === companyname && r.studentCpr === parseInt(cpr)
     );
     if ( requests.length !== 0 ) {
         res.status(200).send("You already have a pending request");  
         return;
     }
 
-    requestDB.requests.push(new requestModel(cpr, companyName));
-    fs.writeFileSync('../database/request.json', JSON.stringify(requestDB, null, 2));
+    requestDB.requests.push(new requestModel(cpr, companyname));
+    fs.writeFileSync(path.resolve(__dirname, '../database/request.json'), JSON.stringify(requestDB, null, 2));
 
-    res.status(200).send();
+    res.status(200).send("Request sent. You will havce access when the student has accepted");
     return;
 }
 

@@ -4,11 +4,10 @@ import {
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
-    Row,
-    Col
+    Row
   } from 'reactstrap';
 import { get } from '../../../utils/request';
-import SearchBar from './searchbar';
+import SingleEmployer from './SingleEmployer';
 
 class Employer extends Component {
     constructor(props) {
@@ -47,14 +46,13 @@ class Employer extends Component {
                 <Dropdown isOpen={employerToggleOpen} toggle={this.toggle}>
                 <DropdownToggle caret>Employers</DropdownToggle>
                     <DropdownMenu>
-                        {employers.map( employer => {
-                            const { name } = employer;
+                        {employers.map( companyname=> {
                             return (
                                 <DropdownItem
-                                    key={name}
-                                    onClick={() => this.selectEmployer(name)}
+                                    key={companyname}
+                                    onClick={() => this.selectEmployer(companyname)}
                                 >
-                                    {name}
+                                    {companyname}
                                 </DropdownItem>
                             )
                         })}
@@ -65,22 +63,9 @@ class Employer extends Component {
     }
 
     renderSelectedEmployer() {
-        const { employers, selectedEmployer } = this.state;
+        const { selectedEmployer } = this.state;
         if ( selectedEmployer ) {
-            const selectedEmployerData = employers.filter(data => data.name === selectedEmployer);
-            if ( selectedEmployerData.length !== 1 ) {
-                throw Error("Expected exactly one employer data to be selected");
-            }
-            const { country, name } = selectedEmployerData[0];
-            return (
-                <div>
-                    <h3>{name}</h3>
-                    <p>Country: {country}</p>
-                    <div>
-                        <SearchBar employer={name} />
-                    </div>
-                </div>
-            )
+            return <SingleEmployer companyname={selectedEmployer} />
         }
     }
 

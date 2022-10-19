@@ -15,6 +15,8 @@ app.use(cors({
     origin: 'http://localhost:3000'
 }));
 
+app.use(express.json());
+
 app.use("/employer", employerRoute);
 app.use("/student", studentRoute);
 app.use("/university", universityRoute);

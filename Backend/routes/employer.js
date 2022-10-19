@@ -20,7 +20,7 @@ router.get('/transcript/:companyname/:cpr', (req, res) => {
     fetchTranscriptByCpr(req, res)
 });
 
-router.post('/request-access/:cpr', (req, res) => {
+router.post('/request-access', (req, res) => {
     requestAccessByCpr(req, res)
 });
 
