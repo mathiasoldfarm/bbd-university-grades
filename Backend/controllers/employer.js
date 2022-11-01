@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import {fileURLToPath} from 'url';
 import requestModel from '../models/request.js';
+import { getAllgradesByCpr } from '../eth_integration/integration.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,7 +29,6 @@ const fetchEmployerInfo = (req, res) => {
 const fetchTranscriptByCpr = (req, res) => {
     const permissionDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/permission.json')));
     const studentDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/student.json')));
-    const blockchainDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/blockchain.json')));
     const requestDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/request.json')));
 
     const { cpr, companyname } = req.params;
@@ -54,11 +54,21 @@ const fetchTranscriptByCpr = (req, res) => {
         res.status(401).send("You do not have access to transcripts by the given cpr"); 
         return; 
     }
-    const grades = blockchainDB.blocks.filter(
-        block => block.studentCpr === parseInt(cpr)
-    );
-    res.status(200).send(grades);
-    return;
+    getAllgradesByCpr(cpr, ( data ) => {
+        const grades = [];
+        data.forEach(row => {
+           grades.push({
+            grade: row.grade,
+            studentCpr: row.cpr,
+            universityName: row.university,
+            course: row.course,
+            date: row.date
+           });
+        });
+
+        res.status(200).send(grades);
+        return;
+    });
 }
 
 const requestAccessByCpr = (req, res) => {

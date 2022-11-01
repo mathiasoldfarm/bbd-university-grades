@@ -11,7 +11,6 @@ const initialData = () => {
     const studentFile = './database/student.json';
     const universityFile = './database/university.json';
     const permisionsFile = './database/permission.json';
-    const blockchainFile = './database/blockchain.json';
     const requestFile = './database/request.json';
 
     const employer = {
@@ -28,10 +27,6 @@ const initialData = () => {
 
     const permission = {
         permissions: []
-    }
-
-    const blockchain = {
-        blocks: []
     }
 
     const request = {
@@ -79,19 +74,6 @@ const initialData = () => {
         permission.permissions.push(new permissionModel(studentCpr, companyName))
     });
 
-    const blocks = [
-        {studentCpr: 1, universityName: "University A", course: "Programming", grade: 7},
-        {studentCpr: 2, universityName: "University A", course: "Programming", grade: 4},
-        {studentCpr: 3, universityName: "University A", course: "Programming", grade: 12},
-        {studentCpr: 1, universityName: "University A", course: "Algebra", grade: 2},
-        {studentCpr: 2, universityName: "University A", course: "Algebra", grade: 10},
-        {studentCpr: 3, universityName: "University A", course: "Algebra", grade: 7}
-    ]
-    blocks.forEach(data => {
-        const { studentCpr, universityName, course, grade } = data;
-        blockchain.blocks.push(new gradesModel(studentCpr, universityName, course, grade))
-    });
-
     const requests = [
         {studentCpr: 3, companyName: "Company A"},
         {studentCpr: 4, companyName: "Company B"}
@@ -105,7 +87,6 @@ const initialData = () => {
     fs.writeFileSync(studentFile, JSON.stringify(student, null, 2));
     fs.writeFileSync(universityFile, JSON.stringify(university, null, 2));
     fs.writeFileSync(permisionsFile, JSON.stringify(permission, null, 2));
-    fs.writeFileSync(blockchainFile, JSON.stringify(blockchain, null, 2));
     fs.writeFileSync(requestFile, JSON.stringify(request, null, 2));
 }
 

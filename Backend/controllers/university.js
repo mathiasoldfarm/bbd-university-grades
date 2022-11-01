@@ -2,6 +2,7 @@ import gradeModel from '../models/grade.js';
 import fs from 'fs';
 import path from 'path';
 import {fileURLToPath} from 'url';
+import { postGradeData } from '../eth_integration/integration.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,7 +27,6 @@ const fetchUniversityInfo = (req, res) => {
 }
 
 const addGrade = (req, res) => {
-    const blockchainDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/blockchain.json')));
     const universityDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/university.json')));
     const studentDB = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../database/student.json')));
 
@@ -41,10 +41,12 @@ const addGrade = (req, res) => {
         res.status(400).send("Couldn't find student with the name");   
         return;
     }
-    blockchainDB.blocks.push(new gradeModel(parseInt(studentCpr), universityName, course, grade));
-    fs.writeFileSync(path.resolve(__dirname, '../database/blockchain.json'), JSON.stringify(blockchainDB, null, 2));
-    res.status(200).send();
-    return;
+    
+    const date = (new Date()).toString();
+    postGradeData(grade, studentCpr, universityName, course, date, () => {
+        res.status(200).send();
+        return;
+    });
 }
 
 export {
